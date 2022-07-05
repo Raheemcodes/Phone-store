@@ -1,0 +1,62 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/css/products.css" />
+<script src="/js/bag.js" defer></script>
+
+</head>
+<body>
+  <%- include('../includes/navigation.ejs') %>
+  
+  <main>
+    <% if (prods.length > 0) { %>
+      <section class="products-container">
+        <% for (const product of prods) { %>
+          <a href="/products/<%= product._id %>" class="product">
+            <div class="products-display">
+              <img class="product-img" src="/<%= product.imageUrl %>" alt="">
+              <button class="likes-btn">
+                <svg id="likes-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -28 512.00002 512"><path d="m471.382812 44.578125c-26.503906-28.746094-62.871093-44.578125-102.410156-44.578125-29.554687 0-56.621094 9.34375-80.449218 27.769531-12.023438 9.300781-22.917969 20.679688-32.523438 33.960938-9.601562-13.277344-20.5-24.660157-32.527344-33.960938-23.824218-18.425781-50.890625-27.769531-80.445312-27.769531-39.539063 0-75.910156 15.832031-102.414063 44.578125-26.1875 28.410156-40.613281 67.222656-40.613281 109.292969 0 43.300781 16.136719 82.9375 50.78125 124.742187 30.992188 37.394531 75.535156 75.355469 127.117188 119.3125 17.613281 15.011719 37.578124 32.027344 58.308593 50.152344 5.476563 4.796875 12.503907 7.4375 19.792969 7.4375 7.285156 0 14.316406-2.640625 19.785156-7.429687 20.730469-18.128907 40.707032-35.152344 58.328125-50.171876 51.574219-43.949218 96.117188-81.90625 127.109375-119.304687 34.644532-41.800781 50.777344-81.4375 50.777344-124.742187 0-42.066407-14.425781-80.878907-40.617188-109.289063zm0 0"/></svg>
+              </button>
+            </div>
+            <div class="Product-action">
+              <title class="product-title"><%= product.title %></title>
+              <h1 class="price">$<%= product.price %></h1>
+              <div class="action-btns">
+                <button class="product-btn bag-btn">
+                  <svg class="bag-btn__icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background: new 0 0 512 512" xml:space="preserve">
+                    <g>
+                      <g>
+                        <path d="M467.952,427.383l-25.3-245.673c-1.045-10.187-9.627-17.93-19.867-17.93h-332.9c-10.213,0-18.789,7.717-19.861,17.877    L44.044,427.45c-2.144,21.452,5.007,43.011,19.614,59.156C78.266,502.739,98.986,512,120.511,512h271.653    c21.425,0,41.952-9.075,56.293-24.914C462.999,471.06,470.103,449.328,467.952,427.383z M418.876,460.261    c-6.898,7.603-16.385,11.791-26.712,11.791H120.518c-10.26,0-20.187-4.468-27.238-12.257c-7.051-7.79-10.506-18.13-9.494-28.257    l24.075-227.803h296.9l23.449,227.657C429.276,442.198,425.953,452.451,418.876,460.261z"></path>
+                      </g>
+                    </g>
+                    <g>
+                      <g>
+                        <path d="M259.663,0c-63.144,0-114.518,51.373-114.518,114.518v69.243h39.948v-69.243c0-41.12,33.45-74.57,74.57-74.57    c41.12,0,74.576,33.45,74.576,74.57v69.243h39.941v-69.243C374.181,51.373,322.808,0,259.663,0z"></path>
+                      </g>
+                    </g>
+                    <g></g>
+                  </svg>
+                  BAG</button>
+                  <div class="bag-quantity__btn">
+                    <label for="quantity">Quantity:</label>
+                    <input id="quantity" type="number" value="1">
+                    <button id="<%= product._id %>">Add</button>
+                  </div>
+              </div>
+            </div>
+          </a>
+        <% } %>
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      </section>
+      <section class="pagination">
+        <% if (currentPage !== 1 && previousPage !== 1) { %> <a href="?page=1">1</a> <% } %>
+        <% if (hasPreviousPage) { %> <a href="?page=<%= previousPage %>"><%= previousPage %></a> <% } %>
+        <a href="?page=<%= currentPage %>" class="active"><%= currentPage %></a>
+        <% if (hasNextPage) { %> <a href="?page=<%= nextPage %>"><%= nextPage %></a> <% } %>
+        <% if (lastPage !== currentPage && nextPage !== lastPage) { %> <a href="?page=<%= lastPage %>"><%= lastPage %></a> <% } %>
+      </section>
+  <% } else { %>
+    <h1>No Product Found!</h1>
+  <% } %>
+  </main>
+</body>
+</html>

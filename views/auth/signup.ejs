@@ -1,0 +1,30 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/css/form.css" />
+
+</head>
+<body>
+  <%- include('../includes/navigation.ejs') %>
+  
+  <main>
+    <section class="form-cover">
+      <h1>Let's Dive In!</h1>
+      <% if (errorMessage) { %>
+        <div class="auth-message auth-message--error"><%= errorMessage %></div>
+      <% } %>
+
+      <form class="form-control" action="/signup" method="POST" novalidate>
+        <p class="error-message email-message"></p>
+        <input id="email" type="email" name="email" class="form-input" value="<%= oldInput.email %>"  placeholder="Email">
+        <p class="error-message password-message"></p>
+        <input id="pass" type="password" name="password" class="form-input" value="<%= oldInput.password %>" placeholder="Password">
+        <p class="error-message confirm-pass--message"></p>
+        <input id="confirm-pass" type="password" name="confirmPassword" class="form-input" value="<%= oldInput.confirmPassword %>" placeholder="Verify Password">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <button class="form-btn" type="submit"> SIGN-UP </button>
+        <p>Already have an account? <a href="/login">Login</a></p>
+      </form>
+    </section>
+  </main>
+  <script src="/js/auth.js"></script>
+</body>
+</html>

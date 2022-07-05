@@ -1,0 +1,309 @@
+<%- include('../includes/head.ejs') %>
+
+<style>
+  main {
+    padding-top: 3.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+  }
+
+
+  .single-product__overview {
+    /* margin-top: 3rem; */
+    width: 100%;
+  }
+
+  .single-product__overview img {
+    width: 100%;
+  }
+
+  .product-details {
+    width: 100%;
+    padding: 0 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  @media(min-width: 64rem) {
+    main {
+      padding-top: 5rem;
+      flex-direction: row;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .single-product__overview {
+      /* margin-top: 3rem; */
+      width: 50%;
+    }
+
+    .product-details {
+      width: 50%;
+    }
+  }
+
+  @media(min-width: 1280px) {
+    .single-product__overview {
+      width: 35%;
+    }
+
+    .product-details {
+      width: 35%;
+    }
+  }
+
+
+  .prod-title {
+    width: 100%;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #2d2d2d;
+    font-family: 'Montserrat', sans-serif;
+    margin-bottom: 0.5rem;
+  }
+
+  .prod-price {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #2d2d2d;
+  }
+
+  .prod-main__container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .main-container {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .product-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60%;
+    background-color: #1c82ff;
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 1rem;
+    border: none;
+    border-radius: 25px;
+    color: #fff;
+    text-decoration: none;
+  }
+
+  .buy-btn {
+    padding: 0.8rem;
+    width: 80%;
+    border-radius: 0;
+    background-color: #018849;
+  }
+
+  .bag-btn__icon {
+    width: 1.3rem;
+    fill: #fff;
+    margin-right: 0.7rem;
+  }
+
+  .bag-btn {
+    margin-top: 1.5rem;
+  }
+
+  .product-details__list {
+    width: 90%;
+    margin: 0;
+    padding-left: 1rem;
+    list-style: circle;
+  }
+
+  .product-details__list-item {
+    margin: 0.5rem;
+  }
+
+  span {
+    font-weight: bold;
+  }
+
+  label {
+    /* font-family: 'Montserrat', sans-serif; */
+    font-weight: bold;
+    /* font-size: 1.2rem; */
+  }
+
+  #quantity {
+    width: 3rem;
+    height: 2rem;
+    border: 1px solid #1a73e8;
+    background-color: #fff;
+    margin: 0.5rem;
+    padding: 0.3rem;
+    font-size: 1rem;
+    font-weight: bold;
+  }
+
+  select {
+    width: 6rem;
+    height: 2rem;
+    border: 1px solid #1a73e8;
+    background-color: #fff;
+    margin: 0.5rem;
+    padding: 0.3rem;
+    font-size: 1rem;
+  }
+
+  input:hover,
+  input:active,
+  select:hover,
+  select:active {
+    border: 2px solid #1a73e8;
+    font-weight: bold;
+  }
+
+  option {
+    background-color: #fff;
+    color: black;
+  }
+</style>
+</head>
+<body>
+<%- include('../includes/navigation.ejs') %>
+
+<main>
+  <section class="single-product__overview">
+    <img src="/<%= prod.imageUrl %>" alt="<%= prod.title %>"></section>
+    <section class="product-details">
+      <div class="prod-main__container">
+        <div class="main-container">
+          <p class="prod-title"><%= prod.title %></p>
+          <h1 class="prod-price">$<%= prod.price %></h1>
+        </div>
+        <div class="main-container">
+          <button class="product-btn buy-btn">Buy Now</button>
+        </div>
+      </div>
+      <p>
+        <h2>Product Details</h2>
+        <ul class="product-details__list">
+          <li class="product-details__list-item">
+            <span>Status:</span>
+            In Stock</li>
+          <li class="product-details__list-item">
+            <label for="color">Color:
+            </label>
+            <select name="color" id="color">
+              <option value="Black">Black</option>
+              <option value="Blue">Blue</option>
+            </select>
+          </li>
+          <li class="product-details__list-item">
+            <label for="memory">Memory Size:
+            </label>
+            <select name="color" id="color">
+              <option value="Black">128GB</option>
+              <option value="Blue">256GB</option>
+            </select>
+          </li>
+          <li class="product-details__list-item">
+            <label for="quantity">Quantity:
+            </label>
+            <input id="quantity" type="number" name="quantity" value="1"></li>
+          </ul>
+
+          <button id="<%= prod._id %>" class="product-btn bag-btn">
+            <svg class="bag-btn__icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background: new 0 0 512 512" xml:space="preserve">
+              <g>
+                <g>
+                  <path d="M467.952,427.383l-25.3-245.673c-1.045-10.187-9.627-17.93-19.867-17.93h-332.9c-10.213,0-18.789,7.717-19.861,17.877    L44.044,427.45c-2.144,21.452,5.007,43.011,19.614,59.156C78.266,502.739,98.986,512,120.511,512h271.653    c21.425,0,41.952-9.075,56.293-24.914C462.999,471.06,470.103,449.328,467.952,427.383z M418.876,460.261    c-6.898,7.603-16.385,11.791-26.712,11.791H120.518c-10.26,0-20.187-4.468-27.238-12.257c-7.051-7.79-10.506-18.13-9.494-28.257    l24.075-227.803h296.9l23.449,227.657C429.276,442.198,425.953,452.451,418.876,460.261z"></path>
+                </g>
+              </g>
+              <g>
+                <g>
+                  <path d="M259.663,0c-63.144,0-114.518,51.373-114.518,114.518v69.243h39.948v-69.243c0-41.12,33.45-74.57,74.57-74.57    c41.12,0,74.576,33.45,74.576,74.57v69.243h39.941v-69.243C374.181,51.373,322.808,0,259.663,0z"></path>
+                </g>
+              </g>
+              <g></g>
+            </svg>
+            Add To Bag</button>
+
+          <h2>Features</h2>
+          <ul class="product-details__list">
+            <li class="product-details__list-item">
+              <span>Front Camera:</span>
+              12 megapixels</li>
+            <li class="product-details__list-item">
+              <span>Back Camera:</span>
+              15 megapixels</li>
+            <li class="product-details__list-item">
+              <span>Screen resolution:</span>
+              2532 x 1170 pixels</li>
+            <li class="product-details__list-item">6GB RAM</li>
+            <li class="product-details__list-item">
+              <span>Size:</span>
+              6.1 inches</li>
+          </ul>
+        </p>
+      </section>
+    </main>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+      const backdrop = document.querySelector('.backdrop');
+      const bagBtn = document.querySelector('.bag-btn');
+      const quantity = document.getElementById('quantity');
+      const cartBtnNum = document.querySelector('.num_of__items');
+      const csrf = document.querySelector('[name=_csrf]').value;
+      const isLoggedIn = document.querySelector('header').id;
+      var stripe = Stripe('pk_test_51IwvJoJe2ZuBrbA8cGNV9yvaDcTgQUDGW8RJF5m1IlaHAHnnNUfX2GslRbysl0eCCrFg34bCYoSdpYklrJE9gf6R00a5Hxx4D6');
+      const buyBtn = document.querySelector('.buy-btn');
+
+      // Add to bag controller
+      bagBtn.addEventListener('click', (e) => { // e.stopPropagation();
+        const data = quantity.value;
+        if (isLoggedIn) {
+          fetch(`${
+            document.location.origin
+          }/bag/${
+            e.target.id
+          }`, {
+            method: 'PUT',
+            headers: {
+              'csrf-token': csrf,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(
+              {quantity: data}
+            )
+          }).then((response) => response.json()).then((result) => {
+            console.log('Success:', result);
+            const cartQuantity = + cartBtnNum.textContent + + data;
+            cartBtnNum.textContent = cartQuantity.toString();
+          });
+        } else {
+          document.location.href = `${
+            document.location.origin
+          }/login`;
+        }
+      });
+
+    
+    buyBtn.addEventListener('click', function() {
+        stripe.redirectToCheckout({
+            sessionId: '<%= sessionId %>'
+        });
+    });
+    </script>
+  </body>
+</html></body>

@@ -1,0 +1,42 @@
+#product-overview__1 {
+  background-image: url(../images/12-pro-1.jpeg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: left 20% top 20%;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  width: 100vw;
+  min-height: 70vh;
+}
+@media (min-width: 1280px) {
+  #product-overview__1 {
+    min-height: 90vh;
+  }
+}
+#product-overview__1 a {
+  padding: 1rem;
+  font-family: "Montserrat", sans-serif;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #fff;
+  border: 3px solid #fff;
+  border-radius: 100px;
+  position: relative;
+  margin: 0 2rem 3rem auto;
+  text-decoration: none;
+}
+@media (min-width: 1280px) {
+  #product-overview__1 a {
+    margin: 6rem;
+    padding: 1.5rem;
+    font-size: 3.5rem;
+  }
+}
+#product-overview__1 a:hover, #product-overview__1 a:active, #product-overview__1 a:focus {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+/*# sourceMappingURL=home.css.map */

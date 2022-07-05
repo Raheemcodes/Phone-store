@@ -1,0 +1,109 @@
+<%- include('../includes/head.ejs') %>
+<script type="module" src="/js/delete-bag.js" defer ></script>
+<link rel="stylesheet" href="/css/products.css" />
+<style>
+  .product,
+  .product:active,
+  .product:hover,
+  .product:focus {
+    border-color: #4AD295;
+  }
+
+  main {
+    padding-top: 4rem;
+  }
+
+   #cart-overview {
+    position: fixed;
+    top: 54.375px;
+    left: 0;
+    right: 0;
+    width: 100vw;
+    color: #fff;
+    background-color: #0471ff;
+    padding: 0.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 3;
+  }
+
+  @media (min-width: 720px) {
+    #cart-overview {
+      top: unset;
+      bottom: 0;
+    }
+  }
+
+  #cart-overview p {
+    margin: 0 1rem;
+    font-size: 1.2rem;
+  }
+
+  #cart-overview .order-btn {
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    padding: 0.5rem;
+    font-family: inherit;
+    background-color: #fff;
+    color: #1a73e8;
+    font-size: 1.2rem;
+  }
+
+  #cart-overview .order-btn:hover,
+  #cart-overview .order-btn:active,
+  #cart-overview .order-btn:focus {
+    transform: scale(1.1);
+  }
+
+</style>
+
+</head>
+<body>
+  <%- include('../includes/navigation.ejs') %>
+  
+  <main>
+    <% if (prods.length > 0) { %>
+      <div id="cart-overview">
+        <p>Sub-Total Price: $<%= totalPrice %></p>
+          <!-- <input type="hidden" name="_csrf" value="<%= csrfToken %>"> -->
+          <a href="/checkout" class="order-btn">Check Out</a>
+      </div>
+      <section class="products-container">
+        <% for (const product of prods) { %>
+          <a href="/products/<%= product.productId._id %>" class="product">
+            <div class="products-display">
+              <img class="product-img" src="/<%= product.productId.imageUrl %>" alt="">
+              <svg class="bag-product__menu" xmlns="http://www.w3.org/2000/svg" id="Capa_1" enable-background="new 0 0 515.555 515.555"  viewBox="0 0 515.555 515.555" ><path d="m303.347 18.875c25.167 25.167 25.167 65.971 0 91.138s-65.971 25.167-91.138 0-25.167-65.971 0-91.138c25.166-25.167 65.97-25.167 91.138 0"/><path d="m303.347 212.209c25.167 25.167 25.167 65.971 0 91.138s-65.971 25.167-91.138 0-25.167-65.971 0-91.138c25.166-25.167 65.97-25.167 91.138 0"/><path d="m303.347 405.541c25.167 25.167 25.167 65.971 0 91.138s-65.971 25.167-91.138 0-25.167-65.971 0-91.138c25.166-25.167 65.97-25.167 91.138 0"/></svg>
+              <span class="bag-quant">Quantity : <%= product.quantity %></span>
+            </div>
+            <div class="Product-action">
+              <title class="product-title"><%= product.productId.title %></title>
+              <h1 class="price">$<%= product.productId.price %></h1>
+              <div class="action-btns">
+                <!-- <button class="product-btn del-btn" id="<%= product._id %>">DELETE</button> -->
+                <button class="product-btn buy-btn">BUY</button>
+                  <div class="bag-quantity__btn">
+                    <label for="quantity">Quantity:</label>
+                    <input id="quantity" type="number" value="1">
+                    <button id="<%= product._id %>">Add</button>
+                  </div>
+                  <div class="bag-product__options">
+                    <button class="bag-product__option">Edit</button>
+                    <button id="<%= product._id %>" class="bag-product__option del-bag">Delete</button>
+                    <button class="bag-product__option">Delete All</button>
+                  </div>
+              </div>
+            </div>
+          </a>
+        <% } %>
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      </section>
+    <% } else { %>
+      <h1>No Product Found!</h1>
+    <% } %>
+  </main>
+</body>
+</html>

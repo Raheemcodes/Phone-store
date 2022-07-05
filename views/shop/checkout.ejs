@@ -1,0 +1,117 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/css/products.css" />
+<style>
+   #cart-overview {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100vw;
+    color: #fff;
+    background-color: #0471ff;
+    padding: 0.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 3;
+  }
+
+  #cart-overview p {
+    margin: 0 1rem;
+    font-size: 1.2rem;
+  }
+
+  #cart-overview .order-btn {
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    padding: 0.5rem;
+    font-family: inherit;
+    background-color: #fff;
+    color: #1a73e8;
+    font-size: 1.2rem;
+  }
+
+  #cart-overview .order-btn:hover,
+  #cart-overview .order-btn:active,
+  #cart-overview .order-btn:focus {
+    transform: scale(1.1);
+  }
+
+  .product,
+  .product:hover,
+  .product:active,
+  .product:active {
+    flex-direction: row;
+    width: 100%;
+    background-color: #fff;
+    border: 2px solid #1a73e8;
+    border-radius: 10px;
+    box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+  }
+
+  @media (min-width: 720px) {
+
+    .products-container {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .product,
+    .product:hover,
+    .product:active,
+    .product:active {
+      width: 60%;
+      max-width: 50rem;
+    }
+  }
+
+  .product .products-display {
+    border-radius: 0;
+    border-right: 2px solid #1a73e8 ;
+  }
+
+</style>
+
+</head>
+<body>
+  <%- include('../includes/navigation.ejs') %>
+  
+  <main>
+    <% if (prods.length > 0) { %>
+      <section class="products-container">
+        <% for (const product of prods) { %>
+          <article class="product">
+            <div class="products-display">
+              <img class="product-img" src="/<%= product.productId.imageUrl %>" alt="">
+              <span class="bag-quant">Quantity : <%= product.quantity %></span>
+            </div>
+            <div class="Product-action">
+              <title class="product-title"><%= product.productId.title %></title>
+              <h1 class="price">$<%= product.productId.price %></h1>
+            </div>
+          </article>
+          <% } %>
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <div id="cart-overview">
+            <p>Sub-Total Price: $<%= totalPrice %></p> 
+            <button type="submit" class="order-btn">Purchase</button>
+          </div>
+        </section>
+        <% } else { %>
+          <h1>No Product Found!</h1>
+          <% } %>
+  </main>
+  <script src="https://js.stripe.com/v3/"></script>
+  <script>
+    var stripe = Stripe('pk_test_51IwvJoJe2ZuBrbA8cGNV9yvaDcTgQUDGW8RJF5m1IlaHAHnnNUfX2GslRbysl0eCCrFg34bCYoSdpYklrJE9gf6R00a5Hxx4D6');
+    var orderBtn = document.querySelector('.order-btn');
+    orderBtn.addEventListener('click', function() {
+        stripe.redirectToCheckout({
+            sessionId: '<%= sessionId %>'
+        });
+    });
+  </script>
+</body>
+</html>

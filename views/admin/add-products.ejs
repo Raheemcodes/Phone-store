@@ -1,0 +1,30 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/css/form.css" />
+
+</head>
+<body>
+  <%- include('../includes/navigation.ejs') %>
+  
+  <main>
+    <section class="form-cover">
+      <h1>Let's Dive In!</h1>
+
+      <% if (errorMessage) { %>
+        <div class="auth-message auth-message--error"><%= errorMessage %></div>
+      <% } %>
+      <form class="form-control" action="/admin/<% if (editing) { %>edit-products<% } else { %>add-products<% } %>" method="POST" enctype="multipart/form-data">
+        <input type="text" id="title" name="title" class="form-input <%= validationErrors.find(e => e.param === 'email') ? 'user-message--error' : '' %>" value="<% if (editing) { %><%= product.title %><% } else { %><%= oldInput.title %><% } %>" placeholder="Title">
+        <input type="file" id="image" name="image" class="form-input <%= validationErrors.find(e => e.param === 'image') ? 'user-message--error' : '' %>" value="<% if (editing) { %><%= product.imageUrl %><% } else { %><%= oldInput.imageUrl %><% } %>">
+        <input type="number" id="price" name="price" class="form-input <%= validationErrors.find(e => e.param === 'price') ? 'user-message--error' : '' %>" value="<% if (editing) { %><%= product.price %><% } else { %><%= oldInput.price %><% } %>" placeholder="Price">
+        <textarea class="<%= validationErrors.find(e => e.param === 'description') ? 'user-message--error' : '' %>" name="description" id="description" cols="50" rows="20" placeholder="Enter your text..."><% if (editing) { %><%= product.description %><% } else { %><%= oldInput.description %><% } %></textarea>
+        <% if (editing) { %>
+          <input type="hidden" value="<%= product._id %>" name="productId">
+        <% } %> 
+
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <button class="form-btn" type="submit"><% if (editing) { %>Update Product<% } else { %>Add Product<% } %></button>
+      </form>
+    </section>
+  </main>
+</body>
+</html>

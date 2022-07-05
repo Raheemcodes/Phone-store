@@ -1,0 +1,109 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/css/form.css" />
+</head>
+<body>
+  <%- include('../includes/navigation.ejs') %>
+  
+  <main>
+    <section class="form-cover">
+      <h1>Let's Dive In!</h1>
+      <% if (errorMessage) { %>
+      <div class="auth-message auth-message--error"><%= errorMessage %></div>
+      <% } %>
+
+      <form class="form-control" action="/login" method="POST">
+        <p class="error-message email-message"></p>
+        <input id="email" type="email" name="email" class="form-input" value="<%= oldInput.email %>"  placeholder="Email">
+        <p class="error-message password-message"></p>
+        <input id="pass" type="password" name="password" class="form-input" value="<%= oldInput.password %>" placeholder="Password">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <button class="form-btn" type="submit"> LOG-IN </button>
+        <p>Don't have an account? <a href="/signup">Sign up</a></p>
+        <p><a href="/reset">Forgot Password?</a></p>
+      </form>
+    </section>
+  </main>
+  <script>
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('pass');
+
+    const emailRegex = /^\S+@\S+\.com+$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
+    const emailMessage = document.querySelector('.email-message');
+    const PasswordMessage = document.querySelector('.password-message');
+
+    const emailValidator = () => {
+      const emailValue = emailInput.value.trim();
+      if (emailRegex.test(emailValue)) {
+        emailMessage.style.display = 'none';
+        emailInput.classList.remove('user-message--error');
+        emailInput.classList.add('user-message');
+      } else {
+        emailMessage.style.display = 'block';
+        emailInput.classList.remove('user-message');
+        emailInput.classList.add('user-message--error');
+        if (!emailValue.includes('@')) {
+          emailMessage.textContent = '@ sign is missing';
+        }
+        if (!emailValue.includes('.')) {
+          emailMessage.textContent = '. sign is missing';
+        }
+        if (!emailValue.includes('com')) {
+          emailMessage.textContent = 'com is missing';
+        }
+        if (!emailValue.includes('@') && !emailValue.includes('.')) {
+          emailMessage.textContent = '@ sign and . sign is missing';
+        }
+        if (!emailValue.includes('@') && !emailValue.includes('com')) {
+          emailMessage.textContent = '@ sign and com is missing';
+        }
+        if (!emailValue.includes('.') && !emailValue.includes('com')) {
+          emailMessage.textContent = '. sign and com is missing';
+        }
+        if (!emailValue.includes('@') && !emailValue.includes('.') && !emailValue.includes('com')) {
+          emailMessage.textContent = '@ sign, . sign and com are missing';
+        }
+      }
+    }
+
+    const passwordValidator = () => {
+      const passValue = passwordInput.value.trim();
+      if (passwordRegex.test(passValue)) {
+        passwordInput.classList.remove('user-message--error');
+        passwordInput.classList.add('user-message');
+        PasswordMessage.style.display = 'none';
+      } else {
+        PasswordMessage.style.display = 'block';
+        passwordInput.classList.remove('user-message');
+        passwordInput.classList.add('user-message--error');
+        if (!(/^(?=.*[a-z])/.test(passValue))) {
+          PasswordMessage.textContent = 'small letter(s) required';
+        }
+        if (!(/^(?=.*[A-Z])/.test(passValue))) {
+          PasswordMessage.textContent = 'Capital letter(s) required';
+        }
+        if (!(/^(?=.*[0-9])/.test(passValue))) {
+          PasswordMessage.textContent = 'Number(s) required';
+        }
+        if (!(/^(?=.*[!@#\$%\^&\*])/.test(passValue))) {
+          PasswordMessage.textContent = 'Special character(s) required';
+        }
+        if (!(/^(?=.{8,})/.test(passValue))) {
+          PasswordMessage.textContent = 'Password must be 8 or more characters long.';
+        }
+      }
+    }
+
+    emailInput.addEventListener('input', emailValidator);
+    window.addEventListener('load', () => {
+      if (emailInput.value.trim() == '' && passwordInput.value.trim() == '') {
+        return;
+      }
+      emailValidator();
+      passwordValidator();
+    });
+
+    passwordInput.addEventListener('input', passwordValidator);
+  </script>
+</body>
+</html>

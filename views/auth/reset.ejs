@@ -1,0 +1,72 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/css/form.css" />
+</head>
+<body>
+  <%- include('../includes/navigation.ejs') %>
+  
+  <main>
+    <section class="form-cover">
+      <h1>Enter your E-Mail!</h1>
+      <% if (errorMessage) { %>
+      <div class="auth-message auth-message--error"><%= errorMessage %></div>
+      <% } %>
+
+      <form class="form-control" action="/reset" method="POST">
+        <p class="error-message email-message"></p>
+        <input id="email" type="email" name="email" class="form-input" value="<%= oldInput.email %>"  placeholder="Email">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <button class="form-btn" type="submit">Reset</button>
+      </form>
+    </section>
+  </main>
+  <script>
+    const emailInput = document.getElementById('email');
+
+    const emailRegex = /^\S+@\S+\.com+$/;
+    const emailMessage = document.querySelector('.email-message');
+
+    const emailValidator = () => {
+      const emailValue = emailInput.value.trim();
+      if (emailRegex.test(emailValue)) {
+        emailMessage.style.display = 'none';
+        emailInput.classList.remove('user-message--error');
+        emailInput.classList.add('user-message');
+      } else {
+        emailMessage.style.display = 'block';
+        emailInput.classList.remove('user-message');
+        emailInput.classList.add('user-message--error');
+        if (!emailValue.includes('@')) {
+          emailMessage.textContent = '@ sign is missing';
+        }
+        if (!emailValue.includes('.')) {
+          emailMessage.textContent = '. sign is missing';
+        }
+        if (!emailValue.includes('com')) {
+          emailMessage.textContent = 'com is missing';
+        }
+        if (!emailValue.includes('@') && !emailValue.includes('.')) {
+          emailMessage.textContent = '@ sign and . sign is missing';
+        }
+        if (!emailValue.includes('@') && !emailValue.includes('com')) {
+          emailMessage.textContent = '@ sign and com is missing';
+        }
+        if (!emailValue.includes('.') && !emailValue.includes('com')) {
+          emailMessage.textContent = '. sign and com is missing';
+        }
+        if (!emailValue.includes('@') && !emailValue.includes('.') && !emailValue.includes('com')) {
+          emailMessage.textContent = '@ sign, . sign and com are missing';
+        }
+      }
+    }
+
+
+    emailInput.addEventListener('input', emailValidator);
+    window.addEventListener('load', () => {
+      if (emailInput.value.trim() == '') {
+        return;
+      }
+      emailValidator();
+    });
+  </script>
+</body>
+</html>
