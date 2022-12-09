@@ -1,7 +1,5 @@
 const path = require('path');
 const fs = require('fs');
-// const https = require('https');
-
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -10,13 +8,16 @@ const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const csrf = require('csurf');
 const flash = require('connect-flash');
-// const helmet = require('helmet');
 const compression = require('compression');
 const morgan = require('morgan');
 
+const MONGO_USER = process.env.MONGO_USER;
+const MONGO_PASSWORD = process.env.MONGO_PASSWORD;
+const MONGO_DEFAULT_DATABASE = process.env.MONGO_DEFAULT_DATABASE;
+
 const User = require('./models/user');
 
-const MONGODB_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.u4041.mongodb.net/${process.env.MONGO_DEFAULT_DATABASE}`;
+const MONGODB_URI = `mongodb+srv://${MONGO_USER}:${MONGO_PASSWORD}@cluster0.u4041.mongodb.net/${MONGO_DEFAULT_DATABASE}`;
 const app = express();
 
 const store = new MongoDBStore({
@@ -143,10 +144,8 @@ app.use((error, req, res, next) => {
 });
 
 mongoose
-  .connect(MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .set(`strictQuery`, false)
+  .connect(MONGODB_URI)
   .then(() => {
     // https
     //   .createServer({ key: privateKey, cert: certificate }, app)
